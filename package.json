@@ -1,0 +1,10 @@
+{
+  "name": "googledoc-to-pdf",
+  "private": true,
+  "scripts": {
+    "test": "bin/test"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
