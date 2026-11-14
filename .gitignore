@@ -1,0 +1,64 @@
+# Secrets / local environment
+.env
+.env.*
+.envrc
+*.pem
+*.key
+*.crt
+*.p12
+id_rsa*
+id_ed25519*
+wifi.conf
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.tfvars
+!*.tfvars.example
+
+# Ansible
+*.retry
+.vault_pass
+vault_pass
+
+# Lambda / Node
+node_modules/
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Ruby
+.bundle/
+vendor/bundle/
+
+# Images and archives
+*.img
+*.raw
+*.qcow2
+*.gz
+
+# Editor / OS
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+.claude/
+
+# gdocs
+.clasprc.json
+.clasp.json

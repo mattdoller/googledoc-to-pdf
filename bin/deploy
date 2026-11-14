@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Push this Apps Script project to the Google account clasp is logged in as.
+#
+#   bin/deploy            push files to the script's HEAD
+#   bin/deploy --version  also cut a new versioned deployment
+#
+# First-time setup: `clasp login`, then set CLASP_SCRIPT_ID (normally in
+# the untracked .envrc). .clasp.json is generated from it on every run.
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+if ! command -v clasp >/dev/null 2>&1; then
+  echo "deploy: clasp not found; install with: npm install -g @google/clasp" >&2
+  exit 1
+fi
+
+if [[ ! -f "${HOME}/.clasprc.json" ]]; then
+  echo "deploy: not logged in; run: clasp login" >&2
+  exit 1
+fi
+
+if [[ -z "${CLASP_SCRIPT_ID:-}" ]]; then
+  echo "deploy: CLASP_SCRIPT_ID is not set; add it to .envrc" >&2
+  exit 1
+fi
+
+cat > .clasp.json <<JSON
+{
+  "scriptId": "${CLASP_SCRIPT_ID}",
+  "rootDir": "",
+  "scriptExtensions": [".js", ".gs"],
+  "htmlExtensions": [".html"],
+  "jsonExtensions": [".json"],
+  "filePushOrder": [],
+  "skipSubdirectories": false
+}
+JSON
+
+echo "deploy: pushing to script ${CLASP_SCRIPT_ID}"
+clasp push --force
+
+if [[ "${1:-}" == "--version" ]]; then
+  description="$(git log -1 --format='%h %s' 2>/dev/null || date -u +%FT%TZ)"
+  clasp create-deployment --description "${description}"
+fi

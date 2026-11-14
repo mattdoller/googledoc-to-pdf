@@ -1,0 +1,7 @@
+# Only Apps Script sources and the manifest get pushed.
+**/**
+!appsscript.json
+!**/*.js
+!**/*.gs
+!**/*.html
+**/node_modules/**
