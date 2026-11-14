@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Run the test suite with Node's built-in test runner.
+#
+#   bin/test                        run every test/*.test.js
+#   bin/test test/code.test.js      run specific files
+#   bin/test --test-name-pattern=run  pass options through to node --test
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "test: node not found; install Node 24 or newer" >&2
+  exit 1
+fi
+
+files=()
+options=()
+
+for arg in "$@"; do
+  if [[ "${arg}" == -* ]]; then
+    options+=("${arg}")
+  else
+    files+=("${arg}")
+  fi
+done
+
+if [[ ${#files[@]} -eq 0 ]]; then
+  files=(test/*.test.js)
+fi
+
+exec node --test "${options[@]}" "${files[@]}"

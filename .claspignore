@@ -5,3 +5,4 @@
 !**/*.gs
 !**/*.html
 **/node_modules/**
+test/**
